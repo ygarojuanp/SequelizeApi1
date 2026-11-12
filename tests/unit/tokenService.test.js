@@ -22,31 +22,31 @@
     //});
 //});
 
-describe('TokenService', () => {
-    let tokenService;
-
+describe('Verifica o serviço de token', () => {
     beforeAll(() => {
         process.env.JWT_SECRET = 'secret';
-        process.env.ACCESS_TOKEN_EXPIRATION = '1h'; // Confira se no código original está com dois 'C's
+        process.env.ACCESS_TOKEN_EXPIRATION = '1h';
         tokenService = require('../../utils/tokenService');
     });
 
-    it('deve gerar token e validar dados do usuario', () => {
+    it('deve gerar token e validar dados do usuário', () => {
+        // Arrange
         const usuario = {
             id: 7,
             email: 'teste@email.com',
             role: 'aluno'
-        };
-
+        }
         const token = tokenService.generateToken(usuario);
+        console.log(token);
         const payload = tokenService.verifyToken(token);
 
+        // Assert
         expect(payload).toEqual(expect.objectContaining(usuario));
     });
 
-    it('deve rejeitar um token invalido', () => {
+    it('deve rejeitar um token inválido', () => {
+        // Assert
         expect(() => tokenService.verifyToken('token-errado'))
-            .toThrow('Token invalido ou expirado!');
+            .toThrow('Token inválido ou expirado!')
     });
 });
-
